@@ -12,7 +12,6 @@ function init() {
   let toSpeak = document.getElementById('text-to-speak');
 
   let voices;
-
   const face = document.querySelector('img');
 
   function loadVoices() {
@@ -33,13 +32,16 @@ function init() {
   
 
   speakButton.addEventListener('click', () => {
+    if (voiceSelection.value === 'select') { return; }
     let utterance = new SpeechSynthesisUtterance(toSpeak.value);
     utterance.voice = voices[voiceSelection.value];
+    synth.speak(utterance);
+    face.src = 'assets/images/smiling-open.png';
+
+    utterance.addEventListener('end', () => {
+      face.src = 'assets/images/smiling.png';
+    });
+
   });
-
-  synth.speak(utterance);
-
-
-  
 }
 
